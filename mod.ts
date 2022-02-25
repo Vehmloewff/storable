@@ -23,8 +23,6 @@ export function storable<T>(value: T): Storable<T> {
 	}
 
 	function set(newVal: T) {
-		if (value === newVal) return
-
 		value = newVal
 
 		subscribers.forEach(listener => listener(value, false))
