@@ -18,7 +18,11 @@ export type Subscriber<T> = (newVal: T, initialCall: boolean) => void
 /** @deprecated Use `makeStorable` instead */
 export const storable = makeStorable
 
-export function makeStorable<T>(value: T): Storable<T> {
+export interface MakeStorableOptions {
+	noImmediateUpdate?: boolean
+}
+
+export function makeStorable<T>(value: T, options: MakeStorableOptions = {}): Storable<T> {
 	const subscribers: Subscriber<T>[] = []
 
 	function get(): T {
@@ -32,7 +36,7 @@ export function makeStorable<T>(value: T): Storable<T> {
 	}
 
 	function subscribe(listener: Subscriber<T>) {
-		listener(value, true)
+		if (!options.noImmediateUpdate) listener(value, true)
 
 		subscribers.push(listener)
 
