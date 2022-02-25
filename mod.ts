@@ -15,7 +15,10 @@ export interface ReadOnlyStorable<T> {
 
 export type Subscriber<T> = (newVal: T, initialCall: boolean) => void
 
-export function storable<T>(value: T): Storable<T> {
+/** @deprecated Use `makeStorable` instead */
+export const storable = makeStorable
+
+export function makeStorable<T>(value: T): Storable<T> {
 	const subscribers: Subscriber<T>[] = []
 
 	function get(): T {
